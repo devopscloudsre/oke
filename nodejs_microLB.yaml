@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejsmicro-k8s-deploymentora0003
+spec:
+  selector:
+    matchLabels:
+      app: nodejsmicro003
+  replicas: 1 # deployment runs 1 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: nodejsmicro003
+    spec:
+      containers:
+      - name: nodejsmicro003
+        image: abhinavshroff/nodejsmicro4kube:latest
+        ports:
+        - containerPort: 80 #Endpoint is at port 80 in the container
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejsmicro-k8s-serviceuser003
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nodejsmicro003
